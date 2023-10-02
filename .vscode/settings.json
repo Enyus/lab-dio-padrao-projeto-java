@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "java-puro/src",
+        "spring/src/main/java/spring/designpatterns"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
