@@ -3,12 +3,34 @@ Lab da DIO para o bootcamp Santander Fullstack Java + Angular que explora os pad
 
 Como não há um desafio específico bem definido, estou usando este lab mais como uma abordagem teórica sobre o que são os Padrões de Projeto (Design Patterns).
 
+* [Sobre o Desafio](#sobre-o-desafio)
+    * [Singleton](#singleton)
+    * [Strategy](#strategy)
+    * [Facade](#facade)
+* [Spring Framework](#spring-framework)
+* [Minha versão do desafio](#minha-versão-do-desafio)
+    * [Java no VSCode](#java-no-vscode)
+    * [Instalando o Maven](#instalando-o-maven)
+    * [Iniciando um projeto com o Spring Boot](#iniciando-um-projeto-com-o-springboot)
+        * [Problema do Swagger UI](#problema-do-swagger-ui)
+    * [Rodando o projeto web](#rodando-o-projeto-web)
+    * [Estrutura de Pastas](#estrutura-de-pastas)
+        * [Controller](#controller)
+        * [Model](#model)
+        * [Repository](#repository)
+        * [Service](#service)
+    * [Passo a passo - WIP](#passo-a-passo)
+        * [Feign](#feign)
+
+
 ## Sobre o Desafio
 Padrões de Projeto são "soluções consolidadas para problemas recorrentes".
 
 * **Padrões Criacionais:** Relacionados a instanciação de um ou múltiplos objetos. Principal objetivo é criar objetos. Ex.: Singleton.
 * **Padrões Comportamentais:** Conseguir definir ou até obrigar determinados comportamentos da estrutura de código; implementar soluções para inferir comportamentos numa determinada estrutura. Ex.: Strategy.
 * **Padrões Estruturais:** Transformações de informação, orquestrar eventuais integrações com sistemas externos. Ex.: Facade.
+
+* [Voltar ao Topo](#)
 
 ### Singleton
 Instância única de uma determinada classe.
@@ -21,6 +43,8 @@ Instância única de uma determinada classe.
     - Variação - Apressado (Eager): Atribui a instância quando a variável é definida.
     - Variação - LazyHolder: Uso de memória mais otimizado. Classe estática interna que cria a variável da instância. Thread-safe. [StackOverflow](https://stackoverflow.com/questions/15019306/regarding-static-holder-singleton-pattern).
 
+* [Voltar ao Topo](#)
+
 ### Strategy
 Definir um contrato a ser seguido por múltiplas implementações.
 - Simplificar a variação de algoritmos para a resolução de um mesmo problema.
@@ -31,6 +55,7 @@ Definir um contrato a ser seguido por múltiplas implementações.
     - Classes de ```ComportamentoNormal```, ```ComportamentoAgressivo``` e ```ComportamentoDefensivo``` que implementam a interface ```Comportamento``` que exige que cada uma delas tenha um método de movimentação definido.
     - Classe ```Robo``` é o contexto, com variável comportamento a ser setado pelas classes ```Comportamento``` (que são as ***estratégias***) que possui também um método ```mover()``` que é delegado à ao ```Comportamento/Estratégia``` atual.
 
+* [Voltar ao Topo](#)
 
 ### Facade
 Abstrai a complexidade de integrações com múltiplos subsistemas. Interface simplicada e abstraída.
@@ -46,6 +71,8 @@ Abstrai a complexidade de integrações com múltiplos subsistemas. Interface si
 
 [Projeto do Professor Java Puro](https://github.com/digitalinnovationone/lab-padroes-projeto-java)
 
+* [Voltar ao Topo](#)
+
 ## Spring Framework
 O Spring já adota alguns dos padrões de projeto acima referidos em seu código, como, por exemplo:
 - Singleton: ```@Bean``` e ```@Autowired```;
@@ -57,17 +84,23 @@ O Spring já adota alguns dos padrões de projeto acima referidos em seu código
 
 [Projeto do Professor Spring](https://github.com/digitalinnovationone/lab-padroes-projeto-spring).
 
+* [Voltar ao Topo](#)
+
 # Minha versão do desafio
 Na parte do Java puro eu simplesmente repliquei as orientações do professor simplesmente, mas para usar o Spring framework eu gostaria de fazer algo diferente, especialmente por ser basicamente a primeira vez que eu usava o Spring e o Spring boot do zero. Assim, minha ideia inicial é resolver um problema que tive no lab de [Primeiras Páginas Interativas ocm Javascript](https://github.com/Enyus/dio-pokedex), no qual a chamada para PokeApi para uma cadeia de evolução de um determinado pokemon não partia de um endpoint único.
 
 Mas vamos por partes. Já que esta foi o meu primeiro contato direto com o Maven, Spring Framework e Spring Boot, quero deixar aqui um passo a passo para caso eu precisar começar novamente do zero as instalações.
 
-## Java do VSCode
+* [Voltar ao Topo](#)
+
+## Java no VSCode
 Eu já tinha instalado o VSCode no meu computador, então o que eu fiz foi simplesmente instalar a extensão ```Extension Pack for Java``` direto no programa. Logo na instalação, foi-me pedido para instalar também a JDK, o que imagino seja necessário para o uso da extensão.
 
 No entanto, conforme dito em aula, é possível baixar o VS Code já com as configurações para o Java [aqui](https://code.visualstudio.com/docs/languages/java).
 
 Ao rodar o comando ```java -version``` num prompt de comandos, será apresentada sua versão instalada do java.
+
+* [Voltar ao Topo](#)
 
 ## Instalando o Maven
 O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como o npm está para o Node/Javascript". Sua instalação, porém, não é tão simples quanto à do Node, devendo ser seguidos os seguintes passos:
@@ -88,6 +121,7 @@ O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como
 8. Caso a instalação tenha sido feita corretamente, num prompt de comando, o comando ```mvn -v``` mostrará no console a versão do maven que foi instalada.
 ![Maven instalado corretamente](./public/maven-instalado.jpg)
 
+* [Voltar ao Topo](#)
 
 ## Iniciando um projeto com o SpringBoot
 A criação de um projeto com o SpringBoot é razoavelmente simples, especialmente se usarmos o [Spring Initializr](https://start.spring.io/):
@@ -97,6 +131,8 @@ A criação de um projeto com o SpringBoot é razoavelmente simples, especialmen
 3. Ao clicar em "Generate", um arquivo zip será criado e poderá ser baixado do site.
 4. Ao descompactar o arquivo baixado, um projeto já estará pré-criado dentro da pasta gerada, que poderá ser aberta em uma IDE.
 5. Com um prompt de comando dentro da pasta do projeto, as dependências poderão ser instaladas com o comando ```mvn install```.
+
+* [Voltar ao Topo](#)
 
 ### Problema do Swagger UI
 Talvez por algum problema com versões, ou por outra coisa que não consegui deduzir, o Swagger não apareceu nas dependências disponíveis no Spring Initializr. Assim, adicionei tal dependência manualmente, cujo passo a passo vai a seguir:
@@ -111,3 +147,86 @@ Talvez por algum problema com versões, ou por outra coisa que não consegui ded
     </dependency>
 ```
 2. Adicionando o código acima no arquivo ```pom.xml```, basta entrar na pasta do projeto maven e rodar o código ```mvn install``` para que todas as dependências sejam baixadas para o repositório local.
+
+* [Voltar ao Topo](#)
+
+## Rodando o projeto web
+Uma vez que as dependências forem corretamente instaladas, é possível executar a aplicação com o comando ```mvn spring-boot:run``` no prompt, e a aplicação será carregada na porta ```http://localhost:8080/```. Caso não haja nenhuma rota mapeada, a seguinte mensagem confirmará que a aplicação está rodando:
+
+![Aplicação funcionando, mas sem rotas](./public/aplicacao-funcionando-sem-rotas.jpg)
+
+Para para a aplicação, basta usar ```ctrl + c``` no prompt de comando e escolher Sim (S) quando for questionado se "Deseja finalziar o arquivo em lotes".
+
+* [Voltar ao Topo](#)
+
+## Estrutura de Pastas
+Faz parte das boas práticas usar uma estrutura padrão para os Pacotes/Pastas do projeto. Como se trata de um projeto Web para uma API, é seguido um padrão semelhante ao modelo MVC. No caso em específico, usarei as três principais camadas: Controller, Model e Service.
+
+```
+    +- \src\main\java\spring\designpatterns
+       +- Application.java
+       |
+       +- controller
+       |
+       +- model
+       |
+       +- service
+       |
+```
+
+### Controller
+Esta camada servirá principalmente para determinar os endpoints da API, tratando os ```requests``` e ```responses``` HTML.
+
+```ChatGPT
+Os controladores lidam com as solicitações HTTP, mapeando-as para métodos e retornando respostas apropriadas. Eles são responsáveis pela interação com o cliente.
+```
+
+### Model
+Esta camada determinará como são formados os objetos de dados da aplicação, geralmente usada para a determinação de como o banco de dados é estruturado (nome da tabela, nome das colunas, restrições dos dados, etc.)
+
+```ChatGPT
+Nesta pasta, você coloca as classes que representam os modelos de dados da sua aplicação. Isso inclui entidades, DTOs (Data Transfer Objects) e outras classes relacionadas à lógica de negócios da aplicação.
+```
+
+### Repository
+Pelo que vi, as classes guardadas na camada Repository (que geralmente guarda classes denomiadas ```DadoRespository.java```) descrevem especificamente as buscas (queries) que estarão disponíveis ao projeto.
+
+```ChatGPT
+Esta pasta contém classes que encapsulam o acesso ao banco de dados, geralmente usando o Spring Data JPA ou outro mecanismo de persistência.
+```
+
+### Service
+Nesta camada, pelo que entendi, estão as classes que realmente vão fazer o "trabalho" na API, usando os modelos e respositories para implementar as regras de negócio e devolver uma resposta ao controller.
+
+```ChatGPT
+Aqui, você coloca classes que contêm a lógica de negócios da sua aplicação. Os serviços podem fazer uso dos repositórios para buscar ou salvar dados.
+```
+
+* [Voltar ao Topo](#)
+
+## Passo a passo
+[WIP]
+Abaixo vou descrever algumas informações que podem ser úteis para a utilização de cada módulo do projeto.
+
+### Feign
+O Feign é um módulo que permite fazer, de maneira declarativa, chamadas a APIs externas. Para que ele funcione da maneira correta, a primeira coisa a ser feita é adicionar a anotação ```@EnableFeignClients``` no arquivo principal do projeto (```Application.java```):
+
+```java
+    package spring.designpatterns;
+
+    import org.springframework.boot.SpringApplication;
+    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    import org.springframework.cloud.openfeign.EnableFeignClients; //Importação da anotação @EnableFeignClients
+
+    @EnableFeignClients // Permite o uso do Feign no projeto
+    @SpringBootApplication
+    public class Application {
+
+        public static void main(String[] args) {
+            SpringApplication.run(Application.class, args);
+        }
+
+    }
+```
+
+* [Voltar ao Topo](#)

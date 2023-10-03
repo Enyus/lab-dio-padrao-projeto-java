@@ -3,5 +3,6 @@
         "java-puro/src",
         "spring/src/main/java/spring/designpatterns"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
 }
