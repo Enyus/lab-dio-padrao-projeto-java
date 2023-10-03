@@ -75,23 +75,23 @@ O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como
 (Uso o sistema operacionl Windows 10)
 
 1. Baixar o Maven [neste site](https://maven.apache.org/download.cgi) escolhendo a opção "Binary zip archive"
-![arquivo a baixar para o maven](public\maven-download.png)
+![arquivo a baixar para o maven](./public/maven-download.png)
 [Aqui tem um guia rápido, em inglês, do que fazer em seguida](https://maven.apache.org/install.html).
 2. Descompactar o arquivo baixado em algum diretório do computador. Colocar a pasta resultante em algum diretório que lhe convenha, de preferência junto com seus demais arquivos do Java.
 3. Dentro da pasta descompactada (que provavelmente se chamará apache-maven-{versão}), haverá uma pasta chamada ```bin```. Será necessário adicionar o endereço desta pasta à variável de ambiente ```PATH```.
 4. Entre na pasta ```bin``` e copie seu endereço:
 5. No campo de pesquisa da barra de tarefas, digite ```Editar as variáveis de ambiente do sistema```:
-![Editar as variáveis de ambiente do sistema](public\editar-variaveis-sistema.jpg)
+![Editar as variáveis de ambiente do sistema](./public/editar-variaveis-sistema.jpg)
 6. Na janela que aparecerá (Propriedades do Sistema), clique no botão ```Variáveis de ambiente...```
-![Propriedades do Sistema](public\propriedades-sistema.jpg)
+![Propriedades do Sistema](./public/propriedades-sistema.jpg)
 7. Na tela seguinte, no campo "Variáveis do sistema", selecione o item ```Path``` e clique em ```Editar...```, clique em ```Novo``` e cole o caminho da pasta bin do arquivo baixado anteriormente e clique em ```OK```;
 8. Caso a instalação tenha sido feita corretamente, num prompt de comando, o comando ```mvn -v``` mostrará no console a versão do maven que foi instalada.
-![Maven instalado corretamente](public\maven-instalado.jpg)
+![Maven instalado corretamente](./public/maven-instalado.jpg)
 
 
 ## Iniciando um projeto com o SpringBoot
 A criação de um projeto com o SpringBoot é razoavelmente simples, especialmente se usarmos o [Spring Initializr](https://start.spring.io/):
-![Spring Initializr](public\spring-initializr.jpg)
+![Spring Initializr](./public/spring-initializr.jpg)
 1. No lado esquerdo, deve-se selecionar o gerenciador de projetos (Maven, no caso), a linguagem de programação (Java, no caso), qual a versão do Spring Boot (usei 3.1.4) e alguns outros dados do projeto e a versão do Java desejada (usei 17).
 2. No lado direito, devem ser escolhidas quais as dependências que deverão ser adicionadas ao projeto. Usei basicamente as mesmas que o professor: Spring Web, Spring Data JPA, H2 Database (apesar que, provavelmente, para o meu intuito não seria necessário um banco de dados), Open Feign e Swagger (veja minha dificuldade com o Swagger abaixo).
 3. Ao clicar em "Generate", um arquivo zip será criado e poderá ser baixado do site.
