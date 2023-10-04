@@ -76,9 +76,11 @@ Abstrai a complexidade de integrações com múltiplos subsistemas. Interface si
 ## Spring Framework
 O Spring já adota alguns dos padrões de projeto acima referidos em seu código, como, por exemplo:
 - Singleton: ```@Bean``` e ```@Autowired```;
+    - ***(Atenção: Nem todo @Bean é um singleton)***
 - Strategy: ```@Service``` e ```@Repository```;
     - CrudRepository
     - ClienteService
+    - ***(@Service e @Repository podem ser considerados padrões por si só)***
 - Facade: API REST para abstrair a complexidade das integrações: ```Spring Data JPA``` e ```ViaCEP``` (com ```Feign```).
 - Módulos do SpringBoot utilizados: Spring Web, Spring Data JPA, H2 Database (banco de dados em memória), Open Feign (Client Rest Declarativo), Swagger (documentação).
 
@@ -212,10 +214,7 @@ Abaixo vou descrever algumas informações que podem ser úteis para a utilizaç
 O Feign é um módulo que permite fazer, de maneira declarativa, chamadas a APIs externas. Para que ele funcione da maneira correta, a primeira coisa a ser feita é adicionar a anotação ```@EnableFeignClients``` no arquivo principal do projeto (```Application.java```):
 
 ```java
-    package spring.designpatterns;
-
-    import org.springframework.boot.SpringApplication;
-    import org.springframework.boot.autoconfigure.SpringBootApplication;
+    // Outras importações
     import org.springframework.cloud.openfeign.EnableFeignClients; //Importação da anotação @EnableFeignClients
 
     @EnableFeignClients // Permite o uso do Feign no projeto
@@ -228,5 +227,64 @@ O Feign é um módulo que permite fazer, de maneira declarativa, chamadas a APIs
 
     }
 ```
+
+O Feign me permitirá acessar a [PokeAPI](https://pokeapi.co/). A Intenção é tratar os dados para que a API retorne um JSON formatado apenas com as informações que serão relevantes para o Front.
+
+Inclui na pasta ```service``` a ***interface*** (é importante lembrar que a declaração do Feign é através de um interface, não de uma classe) de utilização do Feign, que chamei de ```PokeApiService.java```, ela ficou mais ou menos assim:
+
+```java
+// Informações sobre o pacote e importações
+
+@FeignClient(name = "pokeapi", url = "https://pokeapi.co/api/v2/pokemon") // Anotação que declara o uso do Feign e a endpoint básica, que será ampliada com o {id} do pokemon abaixo
+public interface PokeApiService {
+    @GetMapping("/{id}") // Esta anotação demonstra que é uma chamada GET com uma parâmetro {id}, este que é adicionado à endpoint básica para completar a URL completa da chamada
+    Object getPokemonBase(@PathVariable("id") int pokemonNumber);
+}
+```
+
+Até o momento, como é possível ver no código, não criei um model para os dados recebidos e preciso pesquisar um modo de fazê-lo apenas com as informações úteis.
+
+Criei, também na pasta ```service```, a classe ```PokemonService.java``` que será responsável por invocar o Feign e tratar os dados, que ficou mais ou menos assim:
+
+```java
+// Informações sobre o pacote e importações
+
+@Service // Anotação do Spring que marca a classe como um Serviço
+public class PokemonService {
+    
+    @Autowired // Anotação para instanciar automaticamente a interface do Feign
+    private PokeApiService pokeApiService;
+
+    // Novamente retornando um Object porque ainda não fiz o modelo de dados
+    public Object getPokemonByNumber(int number){
+        return pokeApiService.getPokemonBase(number);
+    }
+}
+```
+
+Por sua vez, esta classe de serviço será invocada no ```controller```, então criei sua pasta e uma classe dentro dela com o nome ```PokemonController.java``` que ficou assim:
+
+```java
+// Informações sobre o pacote e importações
+
+@RestController // Anotação do Spring que declara a classe como um controller
+@RequestMapping("pokemon") // Anotação para indicar que a classe vai envolver a url com caminho localhost:8080/pokemon
+public class PokemonController {
+
+    @Autowired // Anotação para instanciar automaticamente o PokemonService
+    private PokemonService pokemonService;
+
+    @GetMapping("/{number}") // Indica que o métodos abaixo será acionado no endpoint localhost:8080/pokemon/{número do pokemon}
+    public ResponseEntity<Object> getPokemonByNumber(@PathVariable int number){
+        return ResponseEntity.ok(pokemonService.getPokemonByNumber(number));
+    }
+    // A Anotação @PathVariable "traduz" a informação que será pega da rota (em @GetMapping)
+    // o método "ok" informa que a resposta mostrará um status 200 
+```
+
+Por enquanto, a chamada ```localhost:8080/pokemon/1``` retorna o mesmo JSON que a PokeAPI:
+
+![Primeiro teste da api](./public/primeiro-teste-api.jpg)
+
 
 * [Voltar ao Topo](#)
