@@ -130,7 +130,7 @@ public class Robo {
 ---
 
 ### Facade
-Abstrai a complexidade de integrações com múltiplos subsistemas. Interface simplicada e abstraída.
+Abstrai a complexidade de integrações com múltiplos subsistemas. Interface simplificada e abstraída.
 - Prover uma 'interface' que reduza a complexidade nas integrações com subsistemas.
 - "Anti-pattern"
 - Obtenção de dados de subsistemas.
@@ -221,7 +221,7 @@ Ao rodar o comando ```java -version``` num prompt de comandos, será apresentada
 ## Instalando o Maven
 O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como o npm está para o Node/Javascript". Sua instalação, porém, não é tão simples quanto à do Node, devendo ser seguidos os seguintes passos:
 
-(Uso o sistema operacionl Windows 10)
+(Uso o sistema operacional Windows 10)
 
 1. Baixar o Maven [neste site](https://maven.apache.org/download.cgi) escolhendo a opção "Binary zip archive"
 ![arquivo a baixar para o maven](./public/maven-download.png)
@@ -271,7 +271,7 @@ Uma vez que as dependências forem corretamente instaladas, é possível executa
 
 ![Aplicação funcionando, mas sem rotas](./public/aplicacao-funcionando-sem-rotas.jpg)
 
-Para para a aplicação, basta usar ```ctrl + c``` no prompt de comando e escolher Sim (S) quando for questionado se "Deseja finalziar o arquivo em lotes".
+Para para a aplicação, basta usar ```ctrl + c``` no prompt de comando e escolher Sim (S) quando for questionado se "Deseja finalizar o arquivo em lotes".
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
@@ -293,24 +293,26 @@ Faz parte das boas práticas usar uma estrutura padrão para os Pacotes/Pastas d
 ### Controller
 Esta camada servirá principalmente para determinar os endpoints da API, tratando os ```requests``` e ```responses``` HTML.
 
-```ChatGPT
-Os controladores lidam com as solicitações HTTP, mapeando-as para métodos e retornando respostas apropriadas. Eles são responsáveis pela interação com o cliente.
-```
+| *ChatGPT:* | *Os controladores lidam com as solicitações HTTP, mapeando-as para métodos e retornando respostas apropriadas. Eles são responsáveis pela interação com o cliente.* |
+| ---- | ---- |
 
 ### Model
 Esta camada determinará como são formados os objetos de dados da aplicação, geralmente usada para a determinação de como o banco de dados é estruturado (nome da tabela, nome das colunas, restrições dos dados, etc.)
 
-| *ChatGPT:* | *Nesta pasta, você coloca as classes que representam os modelos de dados da sua aplicação.Isso inclui entidades, DTOs (Data Transfer Objects) e outras classes relacionadas à lógica de negócios da aplicação.* |
+| *ChatGPT:* | *Nesta pasta, você coloca as classes que representam os modelos de dados da sua aplicação. Isso inclui entidades, DTOs (Data Transfer Objects) e outras classes relacionadas à lógica de negócios da aplicação.* |
+| ---- | ---- |
 
 ### Repository
-Pelo que vi, as classes guardadas na camada Repository (que geralmente guarda classes denomiadas ```DadoRespository.java```) descrevem especificamente as buscas (queries) que estarão disponíveis ao projeto.
+Pelo que vi, as classes guardadas na camada Repository (que geralmente guarda classes denominadas ```DadoRespository.java```) descrevem especificamente as buscas (queries) que estarão disponíveis ao projeto.
 
 | *ChatGPT:* | *Esta pasta contém classes que encapsulam o acesso ao banco de dados, geralmente usando o Spring Data JPA ou outro mecanismo de persistência.* |
+| ---- | ---- |
 
 ### Service
 Nesta camada, pelo que entendi, estão as classes que realmente vão fazer o "trabalho" na API, usando os modelos e respositories para implementar as regras de negócio e devolver uma resposta ao controller.
 
 | *ChatGPT:* | *Aqui, você coloca classes que contêm a lógica de negócios da sua aplicação. Os serviços podem fazer uso dos repositórios para buscar ou salvar dados.* |
+| ---- | ---- |
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
