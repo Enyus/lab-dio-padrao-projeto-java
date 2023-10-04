@@ -24,13 +24,19 @@ Como não há um desafio específico bem definido, estou usando este lab mais co
 
 
 ## Sobre o Desafio
-Padrões de Projeto são "soluções consolidadas para problemas recorrentes".
+Padrões de Projeto são "soluções consolidadas para problemas recorrentes" no desenvolvimento de software. Eles podem ser categorizados em três grupos principais:
 
-* **Padrões Criacionais:** Relacionados a instanciação de um ou múltiplos objetos. Principal objetivo é criar objetos. Ex.: Singleton.
+* **Padrões Criacionais:** Relacionados a instanciação de um ou múltiplos objetos. Principal objetivo é criar objetos. Um exemplo é o Singleton, que garante que uma classe tenha apenas uma instância.
+
 * **Padrões Comportamentais:** Conseguir definir ou até obrigar determinados comportamentos da estrutura de código; implementar soluções para inferir comportamentos numa determinada estrutura. Ex.: Strategy.
-* **Padrões Estruturais:** Transformações de informação, orquestrar eventuais integrações com sistemas externos. Ex.: Facade.
+    * *ChatGPT*: Tratam do comportamento das classes e objetos. O Strategy é um exemplo, pois permite definir diferentes algoritmos para resolver o mesmo problema.
 
-* [Voltar ao Topo](#)
+* **Padrões Estruturais:** Transformações de informação, orquestrar eventuais integrações com sistemas externos. Ex.: Facade.
+    * *ChatGPT*: Lidam com a composição de classes e objetos. O Facade é um exemplo, pois fornece uma interface simplificada para um conjunto de subsistemas.
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+---
 
 ### Singleton
 Instância única de uma determinada classe.
@@ -43,7 +49,26 @@ Instância única de uma determinada classe.
     - Variação - Apressado (Eager): Atribui a instância quando a variável é definida.
     - Variação - LazyHolder: Uso de memória mais otimizado. Classe estática interna que cria a variável da instância. Thread-safe. [StackOverflow](https://stackoverflow.com/questions/15019306/regarding-static-holder-singleton-pattern).
 
-* [Voltar ao Topo](#)
+* *ChatGPT*: O Singleton é um padrão de projeto que garante a existência de apenas uma instância de uma classe e oferece um ponto de acesso global a essa instância. Existem variações de Singleton, como o Lazy Singleton, que cria a instância apenas quando necessário, e o Eager Singleton, que a cria imediatamente. Exemplo de código Java para um Singleton:
+
+```java
+public class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+---
 
 ### Strategy
 Definir um contrato a ser seguido por múltiplas implementações.
@@ -55,7 +80,54 @@ Definir um contrato a ser seguido por múltiplas implementações.
     - Classes de ```ComportamentoNormal```, ```ComportamentoAgressivo``` e ```ComportamentoDefensivo``` que implementam a interface ```Comportamento``` que exige que cada uma delas tenha um método de movimentação definido.
     - Classe ```Robo``` é o contexto, com variável comportamento a ser setado pelas classes ```Comportamento``` (que são as ***estratégias***) que possui também um método ```mover()``` que é delegado à ao ```Comportamento/Estratégia``` atual.
 
-* [Voltar ao Topo](#)
+* *ChatGPT*: O Strategy é um padrão que define uma família de algoritmos, encapsula cada um deles e os torna intercambiáveis. Isso permite que o cliente escolha o algoritmo desejado em tempo de execução. Exemplo de código Java para o padrão Strategy:
+
+```java
+// Interface que define o contrato para os algoritmos
+public interface Comportamento {
+    void executar();
+}
+
+// Implementações dos algoritmos
+public class ComportamentoNormal implements Comportamento {
+    public void executar() {
+        System.out.println("Comportamento Normal");
+    }
+}
+
+public class ComportamentoAgressivo implements Comportamento {
+    public void executar() {
+        System.out.println("Comportamento Agressivo");
+    }
+}
+
+public class ComportamentoDefensivo implements Comportamento {
+    public void executar() {
+        System.out.println("Comportamento Defensivo");
+    }
+}
+
+// Classe que utiliza o Strategy
+public class Robo {
+    private Comportamento comportamento;
+
+    public Robo(Comportamento comportamento) {
+        this.comportamento = comportamento;
+    }
+
+    public void setComportamento(Comportamento comportamento) {
+        this.comportamento = comportamento;
+    }
+
+    public void mover() {
+        comportamento.executar();
+    }
+}
+```
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+---
 
 ### Facade
 Abstrai a complexidade de integrações com múltiplos subsistemas. Interface simplicada e abstraída.
@@ -69,9 +141,46 @@ Abstrai a complexidade de integrações com múltiplos subsistemas. Interface si
     - Existe uma classe ```CepApi``` que recupera cidade e estado pelo cep.
     - A intenção é que a classe ```Facade``` com o método ```migrarCliente```, este que consulta os outros subsistemas (```CrmService``` e ```CepAPI```) para realizar a criação da entrada do cliente.
 
-[Projeto do Professor Java Puro](https://github.com/digitalinnovationone/lab-padroes-projeto-java)
+* *ChatGPT*: O Facade é um padrão que fornece uma interface simplificada para um conjunto de subsistemas. Ele oculta a complexidade da interação com esses subsistemas e facilita o uso para o cliente. Exemplo de uso do Facade:
 
-* [Voltar ao Topo](#)
+```java
+// Classe que representa um subsistema complicado
+public class CrmService {
+    public void gravarCliente(String nome, String email) {
+        // Implementação detalhada para gravar um cliente no CRM
+    }
+}
+
+// Classe que representa outro subsistema
+public class CepApi {
+    public String consultarCep(String cep) {
+        // Implementação detalhada para consultar um CEP
+    }
+}
+
+// Facade que simplifica a integração com os subsistemas
+public class Facade {
+    private CrmService crmService;
+    private CepApi cepApi;
+
+    public Facade() {
+        this.crmService = new CrmService();
+        this.cepApi = new CepApi();
+    }
+
+    public void migrarCliente(String nome, String cep) {
+        String email = cepApi.consultarCep(cep);
+        crmService.gravarCliente(nome, email);
+    }
+}
+```
+
+---
+
+* 👨‍🏫 [Projeto do Professor Java Puro](https://github.com/digitalinnovationone/lab-padroes-projeto-java)
+
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Spring Framework
 O Spring já adota alguns dos padrões de projeto acima referidos em seu código, como, por exemplo:
@@ -84,16 +193,21 @@ O Spring já adota alguns dos padrões de projeto acima referidos em seu código
 - Facade: API REST para abstrair a complexidade das integrações: ```Spring Data JPA``` e ```ViaCEP``` (com ```Feign```).
 - Módulos do SpringBoot utilizados: Spring Web, Spring Data JPA, H2 Database (banco de dados em memória), Open Feign (Client Rest Declarativo), Swagger (documentação).
 
-[Projeto do Professor Spring](https://github.com/digitalinnovationone/lab-padroes-projeto-spring).
+* 👨‍🏫 [Projeto do Professor Spring](https://github.com/digitalinnovationone/lab-padroes-projeto-spring).
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+---
+---
+<br>
+<br>
 
 # Minha versão do desafio
 Na parte do Java puro eu simplesmente repliquei as orientações do professor simplesmente, mas para usar o Spring framework eu gostaria de fazer algo diferente, especialmente por ser basicamente a primeira vez que eu usava o Spring e o Spring boot do zero. Assim, minha ideia inicial é resolver um problema que tive no lab de [Primeiras Páginas Interativas ocm Javascript](https://github.com/Enyus/dio-pokedex), no qual a chamada para PokeApi para uma cadeia de evolução de um determinado pokemon não partia de um endpoint único.
 
 Mas vamos por partes. Já que esta foi o meu primeiro contato direto com o Maven, Spring Framework e Spring Boot, quero deixar aqui um passo a passo para caso eu precisar começar novamente do zero as instalações.
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Java no VSCode
 Eu já tinha instalado o VSCode no meu computador, então o que eu fiz foi simplesmente instalar a extensão ```Extension Pack for Java``` direto no programa. Logo na instalação, foi-me pedido para instalar também a JDK, o que imagino seja necessário para o uso da extensão.
@@ -102,7 +216,7 @@ No entanto, conforme dito em aula, é possível baixar o VS Code já com as conf
 
 Ao rodar o comando ```java -version``` num prompt de comandos, será apresentada sua versão instalada do java.
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Instalando o Maven
 O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como o npm está para o Node/Javascript". Sua instalação, porém, não é tão simples quanto à do Node, devendo ser seguidos os seguintes passos:
@@ -123,7 +237,7 @@ O Maven é um gerenciador de pacotes e empacotamento que "está para o Java como
 8. Caso a instalação tenha sido feita corretamente, num prompt de comando, o comando ```mvn -v``` mostrará no console a versão do maven que foi instalada.
 ![Maven instalado corretamente](./public/maven-instalado.jpg)
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Iniciando um projeto com o SpringBoot
 A criação de um projeto com o SpringBoot é razoavelmente simples, especialmente se usarmos o [Spring Initializr](https://start.spring.io/):
@@ -134,9 +248,9 @@ A criação de um projeto com o SpringBoot é razoavelmente simples, especialmen
 4. Ao descompactar o arquivo baixado, um projeto já estará pré-criado dentro da pasta gerada, que poderá ser aberta em uma IDE.
 5. Com um prompt de comando dentro da pasta do projeto, as dependências poderão ser instaladas com o comando ```mvn install```.
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
-### Problema do Swagger UI
+## Problema do Swagger UI
 Talvez por algum problema com versões, ou por outra coisa que não consegui deduzir, o Swagger não apareceu nas dependências disponíveis no Spring Initializr. Assim, adicionei tal dependência manualmente, cujo passo a passo vai a seguir:
 
 1. No site [Maven Repository](https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui/3.0.0) é apresentada a estrutura a ser incluída no arquivo pom.xml:
@@ -150,7 +264,7 @@ Talvez por algum problema com versões, ou por outra coisa que não consegui ded
 ```
 2. Adicionando o código acima no arquivo ```pom.xml```, basta entrar na pasta do projeto maven e rodar o código ```mvn install``` para que todas as dependências sejam baixadas para o repositório local.
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Rodando o projeto web
 Uma vez que as dependências forem corretamente instaladas, é possível executar a aplicação com o comando ```mvn spring-boot:run``` no prompt, e a aplicação será carregada na porta ```http://localhost:8080/```. Caso não haja nenhuma rota mapeada, a seguinte mensagem confirmará que a aplicação está rodando:
@@ -159,7 +273,7 @@ Uma vez que as dependências forem corretamente instaladas, é possível executa
 
 Para para a aplicação, basta usar ```ctrl + c``` no prompt de comando e escolher Sim (S) quando for questionado se "Deseja finalziar o arquivo em lotes".
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Estrutura de Pastas
 Faz parte das boas práticas usar uma estrutura padrão para os Pacotes/Pastas do projeto. Como se trata de um projeto Web para uma API, é seguido um padrão semelhante ao modelo MVC. No caso em específico, usarei as três principais camadas: Controller, Model e Service.
@@ -186,25 +300,19 @@ Os controladores lidam com as solicitações HTTP, mapeando-as para métodos e r
 ### Model
 Esta camada determinará como são formados os objetos de dados da aplicação, geralmente usada para a determinação de como o banco de dados é estruturado (nome da tabela, nome das colunas, restrições dos dados, etc.)
 
-```ChatGPT
-Nesta pasta, você coloca as classes que representam os modelos de dados da sua aplicação. Isso inclui entidades, DTOs (Data Transfer Objects) e outras classes relacionadas à lógica de negócios da aplicação.
-```
+| *ChatGPT:* | *Nesta pasta, você coloca as classes que representam os modelos de dados da sua aplicação.Isso inclui entidades, DTOs (Data Transfer Objects) e outras classes relacionadas à lógica de negócios da aplicação.* |
 
 ### Repository
 Pelo que vi, as classes guardadas na camada Repository (que geralmente guarda classes denomiadas ```DadoRespository.java```) descrevem especificamente as buscas (queries) que estarão disponíveis ao projeto.
 
-```ChatGPT
-Esta pasta contém classes que encapsulam o acesso ao banco de dados, geralmente usando o Spring Data JPA ou outro mecanismo de persistência.
-```
+| *ChatGPT:* | *Esta pasta contém classes que encapsulam o acesso ao banco de dados, geralmente usando o Spring Data JPA ou outro mecanismo de persistência.* |
 
 ### Service
 Nesta camada, pelo que entendi, estão as classes que realmente vão fazer o "trabalho" na API, usando os modelos e respositories para implementar as regras de negócio e devolver uma resposta ao controller.
 
-```ChatGPT
-Aqui, você coloca classes que contêm a lógica de negócios da sua aplicação. Os serviços podem fazer uso dos repositórios para buscar ou salvar dados.
-```
+| *ChatGPT:* | *Aqui, você coloca classes que contêm a lógica de negócios da sua aplicação. Os serviços podem fazer uso dos repositórios para buscar ou salvar dados.* |
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Passo a passo
 [WIP]
@@ -287,4 +395,7 @@ Por enquanto, a chamada ```localhost:8080/pokemon/1``` retorna o mesmo JSON que 
 ![Primeiro teste da api](./public/primeiro-teste-api.jpg)
 
 
-* [Voltar ao Topo](#)
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+---
+---
