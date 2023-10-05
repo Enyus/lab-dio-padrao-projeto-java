@@ -1,0 +1,47 @@
+{
+    "number": 1,
+    "name":"bulbasaur",
+    "types": ["grass", "poison"],
+    "imgUrl": "",
+    "species": "bulbasaur",
+    "height": 0.7,
+    "weight": 69,
+    "abilities": ["overgrow", "chlorophyll"],
+    "stats": [
+        {
+            "stat": "HP",
+            "value": 45
+        },
+        {
+            "stat": "Attack",
+            "value": 49
+        },
+        {
+            "stat": "Defense",
+            "value": 49
+        },
+        {
+            "stat": "Sp. Attack",
+            "value": 65
+        },
+        {
+            "stat": "Sp. Defense",
+            "value": 65
+        },
+        {
+            "stat": "Speed",
+            "value": 45
+        }
+    ],
+    "evolutionChain":[
+        {
+            "name": "bulbasaur",
+            "evolvesTo": "ivysaur"
+        },
+        {
+            "name": "ivysaur",
+            "evolvesTo": "venusaur"
+        }
+    ]
+
+}

@@ -21,6 +21,7 @@ Como não há um desafio específico bem definido, estou usando este lab mais co
         * [Service](#service)
     * [Passo a passo - WIP](#passo-a-passo)
         * [Feign](#feign)
+        * [Model](#model-1)
 
 
 ## Sobre o Desafio
@@ -203,7 +204,7 @@ O Spring já adota alguns dos padrões de projeto acima referidos em seu código
 <br>
 
 # Minha versão do desafio
-Na parte do Java puro eu simplesmente repliquei as orientações do professor simplesmente, mas para usar o Spring framework eu gostaria de fazer algo diferente, especialmente por ser basicamente a primeira vez que eu usava o Spring e o Spring boot do zero. Assim, minha ideia inicial é resolver um problema que tive no lab de [Primeiras Páginas Interativas ocm Javascript](https://github.com/Enyus/dio-pokedex), no qual a chamada para PokeApi para uma cadeia de evolução de um determinado pokemon não partia de um endpoint único.
+Na parte do Java puro eu simplesmente repliquei as orientações do professor simplesmente, mas para usar o Spring framework eu gostaria de fazer algo diferente, especialmente por ser basicamente a primeira vez que eu usava o Spring e o Spring boot do zero. Assim, minha ideia inicial é resolver um problema que tive no lab de [Primeiras Páginas Interativas com Javascript](https://github.com/Enyus/dio-pokedex), no qual a chamada para PokeApi para uma cadeia de evolução de um determinado pokemon não partia de um endpoint único.
 
 Mas vamos por partes. Já que esta foi o meu primeiro contato direto com o Maven, Spring Framework e Spring Boot, quero deixar aqui um passo a passo para caso eu precisar começar novamente do zero as instalações.
 
@@ -398,6 +399,92 @@ Por enquanto, a chamada ```localhost:8080/pokemon/1``` retorna o mesmo JSON que 
 
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+### Model
+Vou tentar usar a pasta Model para criar um modelo de estrutura de dados para o JSON retornado, apenas com as informações que serão utilizadas no Front, que no momento acho ser algo assim:
+
+```JSON
+{
+    "number": 1,
+    "name":"bulbasaur",
+    "types": ["grass", "poison"],
+    "imgUrl": "",
+    "species": "bulbasaur",
+    "height": 0.7,
+    "weight": 69,
+    "abilities": ["overgrow", "chlorophyll"],
+    "stats": [
+        {
+            "stat": "HP",
+            "value": 45
+        },
+        {
+            "stat": "Attack",
+            "value": 49
+        },
+        {
+            "stat": "Defense",
+            "value": 49
+        },
+        {
+            "stat": "Sp. Attack",
+            "value": 65
+        },
+        {
+            "stat": "Sp. Defense",
+            "value": 65
+        },
+        {
+            "stat": "Speed",
+            "value": 45
+        }
+    ],
+    "evolutionChain":[
+        {
+            "name": "bulbasaur",
+            "evolvesTo": "ivysaur"
+        },
+        {
+            "name": "ivysaur",
+            "evolvesTo": "venusaur"
+        }
+    ]
+
+}
+```
+Mas ainda preciso descobrir como manipuar a resposta da PokeAPI com Java. A criação de um modelo específico para esta resposta é inviável, já que ela tem muitos caracteres.
+
+Após uma rápida busca pela internet, encontrei [este artigo do DevMedia](https://www.devmedia.com.br/json-manipulacao-de-estruturas-complexas-na-linguagem-java/25505) que tratava da manipulação de arquivos JSON com java com a dependência ```org.json``` ([Veja no MavenRepository](https://mvnrepository.com/artifact/org.json/json/20230618)) que poderia resolver meu problema, então tentei adicionar a nova dependência ao projeto:
+
+```xml
+<!-- Arquivo pom.xml -->
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20230618</version>
+</dependency>
+```
+
+A dependência foi adicionado com o comando ```mvn clean install``` na pasta do projeto spring.
+
+Para meu infortúnio, porém, um Object que é o resultado da API transformam o ":" dos pares de chave e valor do JSON vindo da pokeAPI para "=", então tentei usar a dependência ```gson``` ([Veja no MavenRepository](https://mvnrepository.com/artifact/com.google.code.gson/gson/2.10.1))
+
+```xml
+<!-- Arquivo pom.xml -->
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10.1</version>
+</dependency>
+```
+
+Finalmente, certamente não com a melhor otimização do mundo, o endpoint ```localhost:8080/pokemon/1``` retornou o desejado:
+
+![API retornando apenas parte das informações da pokeAPI](./public/segundo-teste-api.jpg)
+
+Agora o desafio é fazer uma segunda consulta à API para conseguir as evoluções do pokemon.
 
 ---
 ---
