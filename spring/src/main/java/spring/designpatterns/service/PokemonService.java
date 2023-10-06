@@ -21,11 +21,14 @@ public class PokemonService {
     @Autowired
     private Gson gson;
 
-    public Object getPokemonByNumber(int number){
+    public Object getPokemonByNumber(String pokemonIdentifier){
         // Resultado da API transformado num Object:
-        Object jsonObject = gson.toJson(pokeApiService.getPokemonBase(number));
+        Object jsonObject = gson.toJson(pokeApiService.getPokemonBase(pokemonIdentifier));
         String jsonString = jsonObject.toString();
         JSONObject pokeApiResult = new JSONObject(jsonString);
+
+        // Pegando o número do pokemon
+        int number = pokeApiResult.getInt("id");
         
         // Pegando o nome do pokemon:
         String name = pokeApiResult.getString("name");

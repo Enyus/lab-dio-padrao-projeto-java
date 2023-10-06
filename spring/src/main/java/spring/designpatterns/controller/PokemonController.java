@@ -17,8 +17,8 @@ public class PokemonController {
     private PokemonService pokemonService;
 
     @GetMapping("/{number}")
-    public ResponseEntity<Object> getPokemonByNumber(@PathVariable int number){
-        return ResponseEntity.ok(pokemonService.getPokemonByNumber(number));
+    public ResponseEntity<Object> getPokemonByNumber(@PathVariable("number") String pokemonIdentifier){
+        return ResponseEntity.ok(pokemonService.getPokemonByNumber(pokemonIdentifier));
     }
     
 }

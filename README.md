@@ -484,7 +484,24 @@ Finalmente, certamente não com a melhor otimização do mundo, o endpoint ```lo
 
 ![API retornando apenas parte das informações da pokeAPI](./public/segundo-teste-api.jpg)
 
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
+
+
+### Evolution Chain
 Agora o desafio é fazer uma segunda consulta à API para conseguir as evoluções do pokemon.
+
+Como pode ser observado [no README do front](https://github.com/Enyus/dio-pokedex), para conseguir a cadeia de evoluções do pokemon, é necessário acessar não apenas um, mas três endpoints da pokeAPI:
+
+* ```https://pokeapi.co/api/v2/pokemon-species/<numero do pokemon>``` - este endpoint permite consultar a "Evolution Chain" de um determinado pokemon, na verdade, apenas dá a URL de outro endpoint que, este sim, dá as informações das evoluções do pokemon.
+![resultado do endpoint pokemon-species](./public/pokemon-species.jpg)
+    * Veja que isso retorna uma URL e não a ```id``` da evolution chain, então também precisará de uma manipulação desta string, pelo menos até o ponto que conheço do Feign.
+
+* ```https://pokeapi.co/api/v2/evolution-chain/<id da evolution chain>``` - este endpoint, veja que ele não depende do id/numero/nome do pokemon, apresenta os nomes das evoluções do pokemon, se existentes. Com estes, tive que fazer novas chamadas no primeiro endpoint para conseguir a imagem das evoluções.
+    * A resposta desta requisição envolve uma outra complexa estrutura JSON, mas pelo menos mostra todas as evoluções do pokemon, mas por nome (String) e não por um id (int).
+    * Assim, para facilitar o próximo passo, transformei o parâmetro da chamada básica do Feign (```getPokemonBase```) para aceitar uma String ao invés de um int como havia feito anteriormente.
+
+* ```https://pokeapi.co/api/v2/pokemon/<id ou nome do pokemon>/``` - este é o endpoint padrão, mas precisarei recorrer a ele para conseguir as imagens das evoluções.
 
 ---
 ---

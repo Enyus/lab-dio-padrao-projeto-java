@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface PokeApiService {
     
     @GetMapping("/{id}")
-    Object getPokemonBase(@PathVariable("id") int pokemonNumber);
+    Object getPokemonBase(@PathVariable("id") String pokemonIdentifier);
 
 }
