@@ -22,6 +22,7 @@ Como não há um desafio específico bem definido, estou usando este lab mais co
     * [Passo a passo - WIP](#passo-a-passo)
         * [Feign](#feign)
         * [Model](#model-1)
+        * [Evolution Chain](#evolution-chain)
 
 
 ## Sobre o Desafio
@@ -264,6 +265,15 @@ Talvez por algum problema com versões, ou por outra coisa que não consegui ded
     </dependency>
 ```
 2. Adicionando o código acima no arquivo ```pom.xml```, basta entrar na pasta do projeto maven e rodar o código ```mvn install``` para que todas as dependências sejam baixadas para o repositório local.
+3. Ainda assim, o endpoint ```http://localhost:8080/swagger-ui.html``` não estava funcionando. Então fiz uma consulta do erro que o mvn apresentava e encontrei [este artigo do Stack Overflow](https://stackoverflow.com/questions/74701738/spring-boot-3-springdoc-openapi-ui-doesnt-work) que mencionava a incompatibilidade do swagger com o Spring Boot v3, e indicava que o correto seria usar a dependência ```springdoc-openapi v2```:
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.0.0</version>
+</dependency>
+```
+E funcionou.
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
@@ -502,6 +512,8 @@ Como pode ser observado [no README do front](https://github.com/Enyus/dio-pokede
     * Assim, para facilitar o próximo passo, transformei o parâmetro da chamada básica do Feign (```getPokemonBase```) para aceitar uma String ao invés de um int como havia feito anteriormente.
 
 * ```https://pokeapi.co/api/v2/pokemon/<id ou nome do pokemon>/``` - este é o endpoint padrão, mas precisarei recorrer a ele para conseguir as imagens das evoluções.
+
+<p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ---
 ---
