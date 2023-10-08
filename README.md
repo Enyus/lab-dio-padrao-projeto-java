@@ -513,6 +513,25 @@ Como pode ser observado [no README do front](https://github.com/Enyus/dio-pokede
 
 * ```https://pokeapi.co/api/v2/pokemon/<id ou nome do pokemon>/``` - este é o endpoint padrão, mas precisarei recorrer a ele para conseguir as imagens das evoluções.
 
+Adicionando esses endpoints ao Feign, o arquivo ```pokeApiService.java``` ficou assim:
+```java
+// Importações
+
+@FeignClient(name = "pokeapi", url = "https://pokeapi.co/api/v2")
+public interface PokeApiService {
+    
+    @GetMapping("/pokemon/{id}")
+    Object getPokemonBase(@PathVariable("id") String pokemonIdentifier);
+
+    @GetMapping("pokemon-species/{species}")
+    Object getPokemonSpecies(@PathVariable("species") String pokemonSpecies);
+
+    @GetMapping("evolution-chain/{id}")
+    Object getEvolutionChain(@PathVariable("id") String evolutionChainIdentifier);
+}
+```
+
+
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ---
