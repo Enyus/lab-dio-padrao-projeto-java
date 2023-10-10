@@ -2,13 +2,15 @@ package spring.designpatterns.model;
 
 public class EvolutionChain {
     private String name;
+    private String img;
     private String evolvesTo;
-    private String imgUrl;
+    private String imgEvo;
 
-    public EvolutionChain(String name, String evolvesTo, String imgUrl) {
+    public EvolutionChain(String name, String img, String evolvesTo, String imgEvo) {
         this.name = name;
+        this.img = img;
         this.evolvesTo = evolvesTo;
-        this.imgUrl = imgUrl;
+        this.imgEvo = imgEvo;
     }
 
     public String getName() {
@@ -19,6 +21,14 @@ public class EvolutionChain {
         this.name = name;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public String getEvolvesTo() {
         return evolvesTo;
     }
@@ -27,12 +37,12 @@ public class EvolutionChain {
         this.evolvesTo = evolvesTo;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImgEvo() {
+        return imgEvo;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImgEvo(String imgEvo) {
+        this.imgEvo = imgEvo;
     }
 
 }

@@ -78,7 +78,7 @@ public class PokemonService {
             stats.add(stat);
         }
 
-        // TODO Pegar as evoluções do pokemon
+        // Pegar as evoluções do pokemon
         ArrayList<EvolutionChain> evolutionChain = new ArrayList<EvolutionChain>();
 
         String numberString = String.valueOf(number);
@@ -94,6 +94,18 @@ public class PokemonService {
         String evoChainJsonString = evoChainJsonObject.toString();
         JSONObject evoChainApiResult = new JSONObject(evoChainJsonString);
         JSONObject evoChainChain = evoChainApiResult.getJSONObject("chain");
+
+        JSONObject evoChainSpecies = evoChainChain.getJSONObject("species");
+        String basePokemonName = evoChainSpecies.getString("name");
+
+        Object jsonObjectBasePokemon = gson.toJson(pokeApiService.getPokemonBase(basePokemonName));
+        String jsonStringBasePokemon = jsonObjectBasePokemon.toString();
+        JSONObject pokeApiResultBasePokemon = new JSONObject(jsonStringBasePokemon);
+        JSONObject spritesBasePokemon = pokeApiResultBasePokemon.getJSONObject("sprites");
+        JSONObject otherSpritesBasePokemon = spritesBasePokemon.getJSONObject("other");
+        JSONObject dreamWorldBasePokemon = otherSpritesBasePokemon.getJSONObject("dream_world");
+        String imgUrlBasePokemon = dreamWorldBasePokemon.getString("front_default");
+
         JSONArray evolvesTo = evoChainChain.getJSONArray("evolves_to");
         if(evolvesTo.length() > 0) {
             JSONObject firstEvo = evolvesTo.getJSONObject(0);
@@ -107,7 +119,7 @@ public class PokemonService {
             JSONObject otherSpritesFirstEvo = spritesFirstEvo.getJSONObject("other");
             JSONObject dreamWorldFirstEvo = otherSpritesFirstEvo.getJSONObject("dream_world");
             String imgUrlFirstEvo = dreamWorldFirstEvo.getString("front_default");
-            EvolutionChain firstEvoChain = new EvolutionChain(name, firstEvoName, imgUrlFirstEvo);
+            EvolutionChain firstEvoChain = new EvolutionChain(basePokemonName, imgUrlBasePokemon, firstEvoName, imgUrlFirstEvo);
             evolutionChain.add(firstEvoChain);
 
             JSONArray secondEvolvesTo = firstEvo.getJSONArray("evolves_to");
@@ -123,7 +135,7 @@ public class PokemonService {
                 JSONObject otherSpritesSecondEvo = spritesSecondEvo.getJSONObject("other");
                 JSONObject dreamWorldSecondEvo = otherSpritesSecondEvo.getJSONObject("dream_world");
                 String imgUrlSecondEvo = dreamWorldSecondEvo.getString("front_default");
-                EvolutionChain SecondEvoChain = new EvolutionChain(firstEvoName, secondEvoName, imgUrlSecondEvo);
+                EvolutionChain SecondEvoChain = new EvolutionChain(firstEvoName, imgUrlFirstEvo, secondEvoName, imgUrlSecondEvo);
                 evolutionChain.add(SecondEvoChain);
             }
         }
