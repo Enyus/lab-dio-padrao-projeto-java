@@ -328,7 +328,6 @@ Nesta camada, pelo que entendi, estão as classes que realmente vão fazer o "tr
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 
 ## Passo a passo
-[WIP]
 Abaixo vou descrever algumas informações que podem ser úteis para a utilização de cada módulo do projeto.
 
 ### Feign
