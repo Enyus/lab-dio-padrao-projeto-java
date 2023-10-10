@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
+import spring.designpatterns.model.EvolutionChain;
 import spring.designpatterns.model.Pokemon;
 import spring.designpatterns.model.Stat;
 
@@ -78,10 +79,57 @@ public class PokemonService {
         }
 
         // TODO Pegar as evoluções do pokemon
+        ArrayList<EvolutionChain> evolutionChain = new ArrayList<EvolutionChain>();
 
+        String numberString = String.valueOf(number);
+        Object speciesJsonObject = gson.toJson(pokeApiService.getPokemonSpecies(numberString));
+        String speciesJsonString = speciesJsonObject.toString();
+        JSONObject pokeSpeciesApiResult = new JSONObject(speciesJsonString);
+        JSONObject evoChainApiObject = pokeSpeciesApiResult.getJSONObject("evolution_chain");
+        String evoChainUrl = evoChainApiObject.getString("url");
+        String evoChainIdWithBar = evoChainUrl.replace("https://pokeapi.co/api/v2/evolution-chain/", "");
+        String evoChainId = evoChainIdWithBar.replace("/", "");
+
+        Object evoChainJsonObject = gson.toJson(pokeApiService.getEvolutionChain(evoChainId));
+        String evoChainJsonString = evoChainJsonObject.toString();
+        JSONObject evoChainApiResult = new JSONObject(evoChainJsonString);
+        JSONObject evoChainChain = evoChainApiResult.getJSONObject("chain");
+        JSONArray evolvesTo = evoChainChain.getJSONArray("evolves_to");
+        if(evolvesTo.length() > 0) {
+            JSONObject firstEvo = evolvesTo.getJSONObject(0);
+            JSONObject firstEvoSpecies = firstEvo.getJSONObject("species");
+            String firstEvoName = firstEvoSpecies.getString("name");
+
+            Object jsonObjectFirstEvo = gson.toJson(pokeApiService.getPokemonBase(firstEvoName));
+            String jsonStringFirstEvo = jsonObjectFirstEvo.toString();
+            JSONObject pokeApiResultFirstEvo = new JSONObject(jsonStringFirstEvo);
+            JSONObject spritesFirstEvo = pokeApiResultFirstEvo.getJSONObject("sprites");
+            JSONObject otherSpritesFirstEvo = spritesFirstEvo.getJSONObject("other");
+            JSONObject dreamWorldFirstEvo = otherSpritesFirstEvo.getJSONObject("dream_world");
+            String imgUrlFirstEvo = dreamWorldFirstEvo.getString("front_default");
+            EvolutionChain firstEvoChain = new EvolutionChain(name, firstEvoName, imgUrlFirstEvo);
+            evolutionChain.add(firstEvoChain);
+
+            JSONArray secondEvolvesTo = firstEvo.getJSONArray("evolves_to");
+            if(secondEvolvesTo.length() > 0) {
+                JSONObject secondEvo = secondEvolvesTo.getJSONObject(0);
+                JSONObject secondEvoSpecies = secondEvo.getJSONObject("species");
+                String secondEvoName = secondEvoSpecies.getString("name");
+
+                Object jsonObjectSecondEvo = gson.toJson(pokeApiService.getPokemonBase(secondEvoName));
+                String jsonStringSecondEvo = jsonObjectSecondEvo.toString();
+                JSONObject pokeApiResultSecondEvo = new JSONObject(jsonStringSecondEvo);
+                JSONObject spritesSecondEvo = pokeApiResultSecondEvo.getJSONObject("sprites");
+                JSONObject otherSpritesSecondEvo = spritesSecondEvo.getJSONObject("other");
+                JSONObject dreamWorldSecondEvo = otherSpritesSecondEvo.getJSONObject("dream_world");
+                String imgUrlSecondEvo = dreamWorldSecondEvo.getString("front_default");
+                EvolutionChain SecondEvoChain = new EvolutionChain(firstEvoName, secondEvoName, imgUrlSecondEvo);
+                evolutionChain.add(SecondEvoChain);
+            }
+        }
 
         // Agrupando em um só objeto:
-        Pokemon pokemon = new Pokemon(number, name, types, imgUrl, height, weight, abilities, stats);
+        Pokemon pokemon = new Pokemon(number, name, types, imgUrl, height, weight, abilities, stats, evolutionChain);
         
         return pokemon;
     }

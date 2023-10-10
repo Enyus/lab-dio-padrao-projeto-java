@@ -531,6 +531,9 @@ public interface PokeApiService {
 }
 ```
 
+Depois de um longo caminho de código, que eu tenho certeza que pode ser melhorado, chegamos ao resultado esperado:
+
+![Resultado Final da API](./public/resultado-final-api.jpg)
 
 <p align="right"><a href="#"> 🔝 Voltar ao Topo 🔝 </a></p>
 

@@ -36,11 +36,13 @@
     "evolutionChain":[
         {
             "name": "bulbasaur",
-            "evolvesTo": "ivysaur"
+            "evolvesTo": "ivysaur",
+            "imgUrl": ""
         },
         {
             "name": "ivysaur",
-            "evolvesTo": "venusaur"
+            "evolvesTo": "venusaur",
+            "imgUrl": ""
         }
     ]
 

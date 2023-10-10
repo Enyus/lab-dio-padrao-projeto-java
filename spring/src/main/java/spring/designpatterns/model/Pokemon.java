@@ -15,7 +15,7 @@ public class Pokemon {
     private int weight;
     private ArrayList<String> abilities;
     private ArrayList<Stat> stats;
-    // private ArrayList<EvolutionChain> evolutionChain;
+    private ArrayList<EvolutionChain> evolutionChain;
 
     // Constructor
     public Pokemon (
@@ -26,7 +26,8 @@ public class Pokemon {
         double height,
         int weight,
         ArrayList<String> abilities,
-        ArrayList<Stat> stats
+        ArrayList<Stat> stats,
+        ArrayList<EvolutionChain> evolutionChain
     ){
         this.number = number;
         this.name = name;
@@ -36,7 +37,7 @@ public class Pokemon {
         this.weight = weight;
         this.abilities = abilities;
         this.stats = stats;
-        // this.evolutionChain = evolutionChain;
+        this.evolutionChain = evolutionChain;
     };
 
 
@@ -106,12 +107,12 @@ public class Pokemon {
         this.stats = stats;
     }
 
-    // public ArrayList<EvolutionChain> getEvolutionChain() {
-    //     return evolutionChain;
-    // }
+    public ArrayList<EvolutionChain> getEvolutionChain() {
+        return evolutionChain;
+    }
 
-    // public void setEvolutionChain(ArrayList<EvolutionChain> evolutionChain) {
-    //     this.evolutionChain = evolutionChain;
-    // }
+    public void setEvolutionChain(ArrayList<EvolutionChain> evolutionChain) {
+        this.evolutionChain = evolutionChain;
+    }
 
 }
